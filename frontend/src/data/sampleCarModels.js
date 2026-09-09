@@ -5,16 +5,21 @@ export const sampleCarModels = [
   {
     id: 1,
     brand: "BMW",
-    name: "M3",
-    description: "High-performance sports sedan with aggressive styling and exceptional handling.",
-    model_file_url: "https://threejs.org/examples/models/gltf/Ferrari/Ferrari.glb", // Sample GLTF model
+    name: "M4 (F82)",
+    description: "High-performance sports coupe with full configurator support (doors, hood, trunk, wheels).",
+    model_file_url: "http://localhost:8000/media/3d_models/cars/F82.glb",
     default_colors: {
-      "BMW Blue": "#0066CC",
-      "Alpine White": "#FFFFFF", 
-      "Jet Black": "#000000",
-      "Storm Bay": "#6B7280",
-      "Mineral Grey": "#9CA3AF",
-      "Sunset Orange": "#FB923C"
+      "Sakhir Orange": "#D23719",
+      "Austin Yellow": "#B89B22",
+      "Yas Marina Blue": "#337699",
+      "Alpine White": "#F4F4F4",
+      "Black Sapphire": "#0A0A0A"
+    },
+    features: {
+      hasDoors: true,
+      hasHood: true,
+      hasTrunk: true,
+      hasWheels: true
     },
     created_at: "2024-01-15T10:30:00Z",
     updated_at: "2024-01-15T10:30:00Z"
