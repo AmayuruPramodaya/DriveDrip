@@ -1,25 +1,49 @@
-Kamathi deyak wenas karaganna ona vidiyata .
+# Project setup
 
----
+## Backend
 
-Create and Activate a Virtual Environment
+1. Change directory to backend
 
-```bash
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-```
-In Backend
-```bash
-cd backend
-py manage.py makemigrations
-py manage.py migrate
-py manage.py runserver
-```
-In Frontend
-```bash
-cd frontend
-npm i
-npm run dev
-```
----
+   ```bash
+   cd backend
+   ```
+
+2. Sync requirements
+
+   ```bash
+   uv sync
+   ```
+
+3. Create backend `.env` file and these data
+
+   ```env
+   SECRET_KEY = <secret_key>
+   GEMINI_API_KEY = <gemini-api-key>
+   ```
+
+4. Create keys using this
+
+   ```sh
+   python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+   ```
+
+## Frontend
+
+1. Change directory to frontend
+
+   ```sh
+   cd frontend
+   ```
+
+2. Install npm packages
+
+   ```sh
+   npm ci
+   ```
+
+3. Run frontend
+
+   ```sh
+   npm run dev
+   npm run host
+   ```
