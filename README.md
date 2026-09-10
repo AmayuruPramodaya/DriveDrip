@@ -19,6 +19,7 @@
    ```env
    SECRET_KEY = <secret_key>
    GEMINI_API_KEY = <gemini-api-key>
+   JWT_SECRET_KEY = <Jwt_secret>
    ```
 
 4. Create keys using this
