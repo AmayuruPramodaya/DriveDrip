@@ -14,7 +14,11 @@ import {
   Store,
   Package,
   Star,
-  MessageCircle
+  MessageCircle,
+  Headphones,
+  Phone,
+  Heart,
+  User
 } from 'lucide-react';
 
 const Navbar = () => {
@@ -122,8 +126,29 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-white/95 backdrop-blur-sm shadow-lg border-b border-gray-200/50">
-      <div className="max-w-screen-xl flex items-center justify-between mx-auto px-4 py-3">
+    <header className="fixed top-0 left-0 w-full z-50 shadow-sm font-sans">
+      {/* Top Banner */}
+      <div className="bg-[#1a2332] text-white/90 py-1.5 px-4 hidden lg:block text-xs font-medium">
+        <div className="max-w-screen-xl mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-2">
+            <Headphones size={14} className="text-orange-500" />
+            <span>Expert Support - Professional assistance available 24/7 across Sri Lanka</span>
+          </div>
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-1">
+              <Phone size={14} className="text-orange-500" />
+              <span>+94 71 234 5678</span>
+            </div>
+            <span className="text-gray-500">|</span>
+            <Link to="/register-mechanic" className="hover:text-orange-500 transition-colors">
+              Register as Mechanic
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <nav className="bg-white border-b border-gray-100">
+        <div className="max-w-screen-xl flex items-center justify-between mx-auto px-4 py-3">
         {/* Logo and Brand */}
         <Link 
           to="/" 
@@ -138,156 +163,100 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center space-x-8">
-          <div className="flex items-center space-x-6">
-            
-            <Link to="/parts" className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200">
+          <div className="flex items-center space-x-6 text-sm font-semibold">
+            <Link to="/home" className="text-orange-600 border-b-2 border-orange-600 pb-1">
+              Home
+            </Link>
+            <Link to="/parts" className="text-gray-700 hover:text-orange-600 transition-colors duration-200">
               Spare Parts
             </Link>
-            <Link to="/3d-cars" className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200">
-              3D Cars
+            <Link to="/3d-cars" className="text-gray-700 hover:text-orange-600 transition-colors duration-200 flex items-center space-x-1">
+              <span>3D Cars</span>
+              <span className="bg-orange-100 text-orange-600 text-[10px] px-1.5 py-0.5 rounded font-bold">NEW</span>
             </Link>
-            <Link to="/shops" className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200">
+            <Link to="/shops" className="text-gray-700 hover:text-orange-600 transition-colors duration-200">
               Shops
             </Link>
-            <Link to="/mechanics" className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200">
+            <Link to="/mechanics" className="text-gray-700 hover:text-orange-600 transition-colors duration-200">
               Mechanics
             </Link>
-            <Link to="/popular" className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200 flex items-center space-x-1">
-              <Star size={16} />
+            <Link to="/popular" className="text-gray-700 hover:text-orange-600 transition-colors duration-200 flex items-center space-x-1">
+              <Star size={14} className="text-orange-500" />
               <span>Popular</span>
             </Link>
-            <Link to="/about" className="text-gray-700 hover:text-orange-600 font-medium transition-colors duration-200">
+            <Link to="/about" className="text-gray-700 hover:text-orange-600 transition-colors duration-200">
               About
             </Link>
           </div>
         </div>
 
-        {/* Desktop User Menu */}
-        <div className="hidden lg:flex items-center space-x-4">
-          {user ? (
-            <>
-              {/* Desktop Dropdown Menu */}
+        {/* Desktop User Menu & CTA */}
+        <div className="hidden lg:flex items-center space-x-5">
+          <div className="flex items-center space-x-4 border-r border-gray-200 pr-5">
+            <Link to="/dashboard" className="text-gray-600 hover:text-orange-600 transition-colors relative">
+              <Package size={20} />
+            </Link>
+            <Link to="/wishlist" className="text-gray-600 hover:text-orange-600 transition-colors relative">
+              <Heart size={20} />
+            </Link>
+            <Link to="/cart" className="text-gray-600 hover:text-orange-600 transition-colors relative flex items-center justify-center">
+              <ShoppingCart size={20} />
+              {cart && cart.totalItems > 0 && (
+                <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center border border-white">
+                  {cart.totalItems}
+                </span>
+              )}
+              {(!cart || cart.totalItems === 0) && (
+                <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center border border-white">
+                  1
+                </span>
+              )}
+            </Link>
+          </div>
+          
+          <div className="flex items-center space-x-4">
+            {user ? (
               <div className="relative group">
-                <button className="flex items-center space-x-2 text-black hover:text-orange-600 transition-colors p-2 rounded-full hover:bg-gray-100">
-                  <ProfileAvatar size={28} className="ring-2 ring-transparent" />
-                  <span className="font-medium">{user.name || user.username}</span>
-                  <svg className="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
+                <button className="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors text-sm font-medium">
+                  <ProfileAvatar size={24} className="ring-2 ring-transparent" />
+                  <span>{user.name || user.username}</span>
                 </button>
-                
                 {/* Dropdown Content */}
-                <div className="absolute right-0 mt-2 w-64 bg-white/95 backdrop-blur-sm rounded-3xl shadow-xl border border-gray-200/50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  <div className="p-4 border-b border-gray-200/50">
-                    <div className="flex items-center space-x-3">
-                      <ProfileAvatar size={40} className="ring-2 ring-orange-200" />
-                      <div>
-                        <p className="font-semibold text-black">{user.name || user.username}</p>
-                        <p className="text-sm text-gray-600 capitalize bg-gray-100 px-2 py-1 rounded-full">{user.role.toLowerCase()}</p>
-                      </div>
-                    </div>
-                  </div>
-                  
+                <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
                   <div className="py-2">
-                    <Link
-                      to="/profile"
-                      className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors rounded-2xl mx-2"
-                    >
-                      <UserCircle size={18} />
+                    <Link to="/profile" className="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-orange-600">
+                      <UserCircle size={16} />
                       <span>My Profile</span>
                     </Link>
-                    
                     {getRoleBasedNavItems().map((item) => (
-                      <Link
-                        key={item.to}
-                        to={item.to}
-                        className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition-colors rounded-2xl mx-2"
-                      >
-                        <item.icon size={18} />
+                      <Link key={item.to} to={item.to} className="flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-orange-600">
+                        <item.icon size={16} />
                         <span>{item.label}</span>
                       </Link>
                     ))}
-                    
                   </div>
-                  
-                  <div className="border-t border-gray-200/50 py-2">
-                    <button
-                      onClick={handleLogout}
-                      className="flex items-center space-x-3 px-4 py-3 text-red-600 hover:bg-red-50 transition-colors w-full text-left rounded-2xl mx-2"
-                    >
-                      <LogOut size={18} />
+                  <div className="border-t border-gray-100 py-1">
+                    <button onClick={handleLogout} className="flex items-center space-x-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full text-left">
+                      <LogOut size={16} />
                       <span>Sign Out</span>
                     </button>
                   </div>
                 </div>
               </div>
-              
-              {/* Cart for buyers */}
-              {user.role === 'BUYER' && (
-                <>
-                  {/* Chat Icon */}
-                  <Link to="/chat" className="relative p-2 text-gray-700 hover:text-orange-600 transition-colors rounded-full hover:bg-gray-100">
-                    <MessageCircle size={20} />
-                    {unreadCount > 0 && (
-                      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow-lg">
-                        {unreadCount > 99 ? '99+' : unreadCount}
-                      </span>
-                    )}
-                  </Link>
-                  
-                  {/* Cart Icon */}
-                  <Link to="/cart" className="relative p-2 text-gray-700 hover:text-orange-600 transition-colors rounded-full hover:bg-gray-100">
-                    <ShoppingCart size={20} />
-                    {cart.totalItems > 0 && (
-                      <span className="absolute -top-1 -right-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow-lg">
-                        {cart.totalItems}
-                      </span>
-                    )}
-                  </Link>
-                </>
-              )}
-              
-              {/* Chat for sellers */}
-              {user.role === 'SELLER' && (
-                <Link to="/chat" className="relative p-2 text-gray-700 hover:text-orange-600 transition-colors rounded-full hover:bg-gray-100">
-                  <MessageCircle size={20} />
-                  {unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow-lg">
-                      {unreadCount > 99 ? '99+' : unreadCount}
-                    </span>
-                  )}
-                </Link>
-              )}
-              
-              {/* Chat for mechanics */}
-              {user.role === 'MECHANIC' && (
-                <Link to="/chat" className="relative p-2 text-gray-700 hover:text-orange-600 transition-colors rounded-full hover:bg-gray-100">
-                  <MessageCircle size={20} />
-                  {unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow-lg">
-                      {unreadCount > 99 ? '99+' : unreadCount}
-                    </span>
-                  )}
-                </Link>
-              )}
-            </>
-          ) : (
-            <>
-              <Link 
-                to="/login" 
-                className="px-5 py-2 border-2 border-orange-500 text-orange-600 rounded-full hover:bg-orange-50 transition-all duration-300 font-medium text-sm"
-              >
-                Login
+            ) : (
+              <Link to="/login" className="flex items-center space-x-1.5 text-gray-700 hover:text-orange-600 transition-colors text-sm font-semibold">
+                <User size={18} />
+                <span>Sign In</span>
               </Link>
-              <Link 
-                to="/register" 
-                className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-full hover:from-orange-600 hover:to-orange-700 hover:scale-105 transition-all duration-300 font-medium shadow-lg"
-              >
-                Register
-              </Link>
-             
-            </>
-          )}
+            )}
+            
+            <Link 
+              to="/add-parts" 
+              className="px-5 py-2.5 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-all font-semibold text-sm shadow-sm"
+            >
+              Post an Ad
+            </Link>
+          </div>
         </div>
 
         {/* Mobile Menu Controls */}
@@ -478,8 +447,9 @@ const Navbar = () => {
             </div>
           )}
         </div>
-      </div>
-    </nav>
+        </div>
+      </nav>
+    </header>
   );
 };
 
