@@ -1,17 +1,32 @@
 # Python-generated files
-__pycache__/
+*__pycache__/
+*.egg-info
+*.sqlite3
 *.py[oc]
+wheels/
 build/
 dist/
-wheels/
-*.egg-info
 
 # Virtual environments
-.venv
+.venv/
+.env
+.env.*
 
-# Other
-*.env
-.idea/
+# Project files
+.DS_Store
 .vscode/
-*.sqlite3
-backend/backend/scripts/
+.idea/
+*.log
+
+# media files
+backend/media/3d_models/cars/*
+backend/media/3d_models/glb/*
+backend/media/profile_pics/*
+backend/media/shop_logos/*
+backend/media/spare_parts/*
+
+schema/*.jpg
+testsprite_tests/
+backend/static/
+k8s/
+*.pem
