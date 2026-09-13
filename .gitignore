@@ -19,8 +19,7 @@ dist/
 *.log
 
 # media files
-backend/media/3d_models/cars/*
-backend/media/3d_models/glb/*
+backend/media/3d_models/
 backend/media/profile_pics/*
 backend/media/shop_logos/*
 backend/media/spare_parts/*

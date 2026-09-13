@@ -93,7 +93,15 @@ class User(AbstractUser):
     email = EmailField(_("email"), unique=True)
     username = CharField(max_length=150, unique=True)
     dob = DateField(_("birthday"), null=True, blank=True)
-    nic = CharField(_("NIC"), max_length=10, unique=True, validators=[nic_validator])
+    nic = CharField(
+        _("NIC"),
+        max_length=10,
+        unique=True,
+        validators=[nic_validator],
+        null=True,
+        blank=True,
+        default=None,
+    )
     mobile_no = CharField(
         _("mobile"),
         max_length=10,

@@ -10,6 +10,7 @@ from django.db.models import (
     CharField,
     TextField,
     FileField,
+    DecimalField,
     CASCADE,
     Index,
     Model,
@@ -83,6 +84,23 @@ class CarModel3D(Model):
         default=dict,
         blank=True,
         help_text="JSON object with color names and hex codes",
+    )
+
+    # Configurator Pricing and Options
+    base_price = DecimalField(
+        _("base price"), max_digits=12, decimal_places=2, default=0.00
+    )
+    alloy_wheels = JSONField(
+        _("alloy wheels options"),
+        default=list,
+        blank=True,
+        help_text="List of wheel objects with name, price, description",
+    )
+    spoilers = JSONField(
+        _("spoiler options"),
+        default=list,
+        blank=True,
+        help_text="List of spoiler objects with name, price, description",
     )
 
     # Status

@@ -1,4 +1,4 @@
-import React, { Suspense, useRef, useState, useEffect, useMemo } from 'react';
+import React, { Suspense, useRef, useState, useEffect, useMemo, forwardRef, useImperativeHandle } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF, Environment, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
@@ -95,23 +95,28 @@ function CarModel({ url, color, openDoors, openHood, openTrunk }) {
   );
 }
 
-// Preload the model
-useGLTF.preload('http://localhost:8000/media/3d_models/cars/F82.glb');
+// Preload removed because the file doesn't exist yet
 
-const ThreeDCarViewerPro = ({ 
+const ThreeDCarViewerPro = forwardRef(({ 
   modelUrl, 
   selectedColor = '#FF2200', 
   activeView = 'front', 
   openDoors = false, 
   openHood = false, 
   openTrunk = false 
-}) => {
+}, ref) => {
   const orbitRef = useRef();
+
+  useImperativeHandle(ref, () => ({
+    resetView: () => {
+      if (orbitRef.current) {
+        orbitRef.current.reset();
+      }
+    }
+  }));
 
   return (
     <Canvas shadows camera={{ position: [5, 2, 5], fov: 45 }}>
-      <color attach="background" args={['transparent']} />
-      
       <Suspense fallback={null}>
         {/* Environment setup for realistic reflections */}
         <Environment preset="studio" intensity={1.5} />
@@ -154,6 +159,6 @@ const ThreeDCarViewerPro = ({
       />
     </Canvas>
   );
-};
+});
 
 export default ThreeDCarViewerPro;
