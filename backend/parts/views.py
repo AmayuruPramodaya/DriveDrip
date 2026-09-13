@@ -1,16 +1,19 @@
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
+from .models import SparePart, SparePartCategory, Part3dmodels
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import ValidationError
-from .models import SparePart, SparePartCategory
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework import filters
 from django.db.models import Q
 from shop.models import Shop
 
+
 from .serializers import (
     SparePartCategorySerializer,
     PopularSparePartSerializer,
+    Part3dmodelsSerializer,
     SparePartSerializer,
 )
 
@@ -245,3 +248,26 @@ def trending_spare_parts(request):
 
     serializer = PopularSparePartSerializer(trending_parts, many=True)
     return Response(serializer.data)
+
+
+class Part3dmodelsViewSet(ModelViewSet):
+    """ViewSet for managing 3D models of spare parts"""
+
+    queryset = Part3dmodels.objects.all()
+    serializer_class = Part3dmodelsSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def get_queryset(self):
+        """Filter 3D models based on the current user and optional part ID"""
+        queryset = super().get_queryset()
+
+        # Filter by part ID if provided in query params
+        part_id = self.request.query_params.get("part_id", None)
+        if part_id:
+            queryset = queryset.filter(part__id=part_id)
+
+        # Only allow sellers to view their own 3D models
+        if self.request.user.role == "SELLER":
+            queryset = queryset.filter(part__seller=self.request.user)
+
+        return queryset

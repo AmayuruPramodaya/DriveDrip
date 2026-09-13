@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, CharField, ReadOnlyField
-from .models import SparePart, SparePartCategory, SparePartImage
+from .models import SparePart, SparePartCategory, SparePartImage, Part3dmodels
 from vehicle.serializers import VehicleModelSerializer
 
 # app serializers
@@ -104,4 +104,21 @@ class PopularSparePartSerializer(ModelSerializer):
             "total_ratings",
             "total_sales",
             "created_at",
+        ]
+
+
+class Part3dmodelsSerializer(ModelSerializer):
+    "Serializer for Part3dmodels model"
+
+    part_name = CharField(source="part.name", read_only=True)
+
+    class Meta:
+        model = Part3dmodels
+        fields = [
+            "id",
+            "name",
+            "part",
+            "part_name",
+            "description",
+            "model_file",
         ]
