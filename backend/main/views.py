@@ -31,3 +31,15 @@ class UserInfoView(APIView):
         user = request.user
         serializer = UserSerializer(user, context={"request": request})
         return Response(serializer.data)
+
+
+class HealthCheckView(APIView):
+    """
+    Health check endpoint for Kubernetes probes.
+    Does not require authentication or ALLOWED_HOSTS validation.
+    """
+
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        return Response({"status": "healthy"})

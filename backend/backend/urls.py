@@ -1,8 +1,10 @@
 from django.conf.urls.static import static
+from main.views import HealthCheckView
 from django.urls import path, include
 from django.views.static import serve
 from django.conf import settings
 from django.contrib import admin
+
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -28,4 +30,9 @@ urlpatterns = [
     path("api/", include("vehicle.urls")),
     path("api/", include("mechanic.urls")),
     path("media/<path:path>", serve, {"document_root": settings.MEDIA_ROOT}),
+    path(
+        "api/health/",
+        HealthCheckView.as_view(),
+        name="health_check",
+    ),
 ]
