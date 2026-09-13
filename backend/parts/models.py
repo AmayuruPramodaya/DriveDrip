@@ -15,6 +15,8 @@ from django.db.models import (
     ImageField,
     CharField,
     TextField,
+    FileField,
+    JSONField,
     CASCADE,
     Index,
     Model,
@@ -137,3 +139,37 @@ class SparePartImage(Model):
         verbose_name = _("spare part image")
         verbose_name_plural = _("spare part images")
         indexes = [Index(fields=["spare_part"], name="spare_part_image_index")]
+
+class Part3dmodels(Model):
+    "3D models for spare parts"
+
+    name = CharField(_("3D model name"), max_length=255)
+    part = ForeignKey(SparePart, on_delete=CASCADE, related_name="parts_models")
+    description = TextField(_("description"), blank=True)
+
+    # 3D Model files
+    model_file = FileField(_("3D model file (OBJ/GLB)"), upload_to="3d_models/parts/")
+    thumbnail = ImageField(
+        _("thumbnail image"), upload_to="3d_models/thumbnails/", null=True, blank=True
+    )
+
+    # Default colors (JSON field to store hex color codes)
+    default_colors = JSONField(
+        _("default colors"),
+        default=dict,
+        blank=True,
+        help_text="JSON object with color names and hex codes",
+    )
+
+    # Status
+    is_active = BooleanField(_("active"), default=True)
+
+    # Metadata
+    created_at = DateTimeField(_("created at"), auto_now_add=True)
+    updated_at = DateTimeField(_("updated at"), auto_now=True)
+
+    class Meta:
+        verbose_name = _("3D Part Model")
+        verbose_name_plural = _("3D Part Models")
+        ordering = ["part", "name"]
+        indexes = [Index(fields=["part", "name"], name="part_3d_model_part_name")]

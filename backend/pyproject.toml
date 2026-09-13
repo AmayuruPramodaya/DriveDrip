@@ -5,6 +5,7 @@ description = "DriveRip backend component code"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "daphne>=4.2.3",
     "django>=6.1.1",
     "django-cors-headers>=4.9.0",
     "django-filter>=26.1",

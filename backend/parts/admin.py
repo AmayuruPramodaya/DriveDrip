@@ -1,4 +1,4 @@
-from .models import SparePartImage, SparePart, SparePartCategory, _
+from .models import SparePartImage, SparePart, SparePartCategory, _, Part3dmodels
 from django.contrib import admin
 
 # Register your models here.
@@ -68,6 +68,34 @@ class SparePartAdmin(admin.ModelAdmin):
         (
             _("Statistics"),
             {"fields": ("average_rating", "total_ratings", "total_sales")},
+        ),
+        (_("Status"), {"fields": ("is_active",)}),
+        (_("Metadata"), {"fields": ("created_at", "updated_at")}),
+    )
+
+
+@admin.register(Part3dmodels)
+class Part3DModelAdmin(admin.ModelAdmin):
+    """Admin configuration for Part3DModel model"""
+
+    list_display = ("name", "part", "is_active", "created_at")
+    list_filter = ("is_active", "created_at")
+    search_fields = ("name", "part__name")
+    readonly_fields = ("created_at", "updated_at")
+
+    fieldsets = (
+        (
+            _("Basic Information"),
+            {
+                "fields": (
+                    "name",
+                    "part",
+                    "description",
+                    "model_file",
+                    "thumbnail",
+                    "default_colors",
+                )
+            },
         ),
         (_("Status"), {"fields": ("is_active",)}),
         (_("Metadata"), {"fields": ("created_at", "updated_at")}),
