@@ -160,8 +160,18 @@ export const chatAPI = {
 
 // 3D Car Models endpoints
 export const carModel3DAPI = {
+  // List all base models (parent=None)
   getAll: (params = {}) => apiClient.get('/3d-cars/', { params }),
+  // Get base model detail
   getById: (id) => apiClient.get(`/3d-cars/${id}/`),
+  // Get modified child model for a base model + specific part
+  getByIdWithPart: (id, partId) => apiClient.get(`/3d-cars/${id}/`, { params: { part_id: partId } }),
+};
+
+// 3D Part Models endpoints
+export const part3dModelsAPI = {
+  getAll: (params = {}) => apiClient.get('/part_3d_models/', { params }),
+  getById: (id) => apiClient.get(`/part_3d_models/${id}/`),
 };
 
 export default apiClient;
