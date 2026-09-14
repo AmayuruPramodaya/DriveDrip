@@ -71,6 +71,14 @@ class CarModel3D(Model):
     name = CharField(_("car model name"), max_length=255)
     brand = CharField(_("car brand"), max_length=100)
     description = TextField(_("description"), blank=True)
+    parent = ForeignKey(
+        "self",
+        on_delete=CASCADE,
+        null=True,
+        blank=True,
+        related_name="children",
+        help_text=_("Parent 3D car model, if this is a variant or child model"),
+    )
 
     # 3D Model files
     modified_part = ForeignKey(

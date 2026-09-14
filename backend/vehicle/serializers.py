@@ -41,10 +41,12 @@ class VehicleModelSerializer(ModelSerializer):
         ]
 
 
-class CarModel3DSerializer(ModelSerializer):
-    "Serializer for 3D Car Models"
+class CarModel3DBaseSerializer(ModelSerializer):
+    """
+    Serializer for the list view — only returns base models (parent=None).
+    Excludes child/modified-part fields to keep the response lean.
+    """
 
-    modified_part_name = CharField(source="modified_part.name", read_only=True)
     model_file_url = SerializerMethodField()
     thumbnail_url = SerializerMethodField()
 
@@ -55,11 +57,7 @@ class CarModel3DSerializer(ModelSerializer):
             "name",
             "brand",
             "description",
-            "modified_part",
-            "modified_part_name",
-            "model_file",
             "model_file_url",
-            "thumbnail",
             "thumbnail_url",
             "default_colors",
             "is_active",
@@ -83,4 +81,35 @@ class CarModel3DSerializer(ModelSerializer):
             if request:
                 return request.build_absolute_uri(obj.thumbnail.url)
             return obj.thumbnail.url
+        return None
+
+
+class CarModel3DDetailSerializer(CarModel3DBaseSerializer):
+    """
+    Serializer for the detail view.
+
+    When a `part_id` query param is provided, the view resolves the matching
+    child model and passes it here — so `modified_part` info is included.
+    """
+
+    modified_part = SerializerMethodField()
+    modified_part_name = SerializerMethodField()
+
+    class Meta(CarModel3DBaseSerializer.Meta):
+        fields = CarModel3DBaseSerializer.Meta.fields + [
+            "parent",
+            "modified_part",
+            "modified_part_name",
+            "model_file",
+            "thumbnail",
+        ]
+
+    def get_modified_part(self, obj):
+        if obj.modified_part_id:
+            return obj.modified_part_id
+        return None
+
+    def get_modified_part_name(self, obj):
+        if obj.modified_part:
+            return obj.modified_part.name
         return None

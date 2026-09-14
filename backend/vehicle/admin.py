@@ -30,19 +30,49 @@ class VehicleModelAdmin(admin.ModelAdmin):
     search_fields = ("name", "brand__name")
 
 
+class CarModel3DChildInline(admin.TabularInline):
+    """Inline to manage child (modified-part) variants of a base 3D car model"""
+
+    model = CarModel3D
+    fk_name = "parent"
+    extra = 1
+    fields = ("name", "modified_part", "model_file", "thumbnail", "is_active")
+    verbose_name = "Modified Variant"
+    verbose_name_plural = "Modified Variants (by Part)"
+    show_change_link = True
+
+
 @admin.register(CarModel3D)
 class CarModel3DAdmin(admin.ModelAdmin):
     """Admin configuration for 3D Car Models"""
 
-    list_display = ("name", "brand", "modified_part", "is_active", "created_at")
-    list_filter = ("brand", "modified_part", "is_active", "created_at")
+    list_display = (
+        "name",
+        "brand",
+        "parent",
+        "modified_part",
+        "is_base_model",
+        "is_active",
+        "created_at",
+    )
+    list_filter = ("brand", "is_active", "created_at")
     search_fields = ("name", "brand", "description", "modified_part__name")
     ordering = ("brand", "name")
+
+    # Show child variants inline only for base models
+    inlines = [CarModel3DChildInline]
 
     fieldsets = (
         (
             _("Basic Information"),
-            {"fields": ("name", "brand", "description", "modified_part")},
+            {"fields": ("name", "brand", "description", "parent")},
+        ),
+        (
+            _("Modified Part"),
+            {
+                "fields": ("modified_part",),
+                "description": "Only set for child/variant models. Leave blank for base models.",
+            },
         ),
         (_("3D Model Files"), {"fields": ("model_file", "thumbnail")}),
         (
@@ -57,6 +87,17 @@ class CarModel3DAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = ("created_at", "updated_at")
+
+    @admin.display(boolean=True, description="Base Model?")
+    def is_base_model(self, obj):
+        """True if this model has no parent (i.e. it is a base model)"""
+        return obj.parent is None
+
+    def get_inline_instances(self, request, obj=None):
+        """Only show child inline on existing base models, not on child models or new objects"""
+        if obj is None or obj.parent is not None:
+            return []
+        return super().get_inline_instances(request, obj)
 
     def save_model(self, request, obj, form, change):
         # Ensure default_colors is a valid dict if empty
