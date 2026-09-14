@@ -59,18 +59,25 @@ class VehicleModelListView(ListAPIView):
 class CarModel3DListView(ListAPIView):
     """List all active 3D car models"""
 
-    queryset = CarModel3D.objects.filter(is_active=True)
+    queryset = CarModel3D.objects.filter(is_active=True).select_related("modified_part")
     serializer_class = CarModel3DSerializer
     permission_classes = [AllowAny]
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ["name", "brand", "description"]
-    ordering_fields = ["name", "brand", "created_at"]
+    search_fields = ["name", "brand", "description", "modified_part__name"]
+    ordering_fields = ["name", "brand", "created_at", "modified_part__name"]
     ordering = ["brand", "name"]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        modified_part = self.request.query_params.get("modified_part")
+        if modified_part:
+            queryset = queryset.filter(modified_part=modified_part)
+        return queryset
 
 
 class CarModel3DDetailView(RetrieveAPIView):
     """Get details of a specific 3D car model"""
 
-    queryset = CarModel3D.objects.filter(is_active=True)
+    queryset = CarModel3D.objects.filter(is_active=True).select_related("modified_part")
     serializer_class = CarModel3DSerializer
     permission_classes = [AllowAny]

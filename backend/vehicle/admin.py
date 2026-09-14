@@ -34,13 +34,16 @@ class VehicleModelAdmin(admin.ModelAdmin):
 class CarModel3DAdmin(admin.ModelAdmin):
     """Admin configuration for 3D Car Models"""
 
-    list_display = ("name", "brand", "is_active", "created_at")
-    list_filter = ("brand", "is_active", "created_at")
-    search_fields = ("name", "brand", "description")
+    list_display = ("name", "brand", "modified_part", "is_active", "created_at")
+    list_filter = ("brand", "modified_part", "is_active", "created_at")
+    search_fields = ("name", "brand", "description", "modified_part__name")
     ordering = ("brand", "name")
 
     fieldsets = (
-        (_("Basic Information"), {"fields": ("name", "brand", "description")}),
+        (
+            _("Basic Information"),
+            {"fields": ("name", "brand", "description", "modified_part")},
+        ),
         (_("3D Model Files"), {"fields": ("model_file", "thumbnail")}),
         (
             _("Color Configuration"),

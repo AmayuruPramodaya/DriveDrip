@@ -64,6 +64,7 @@ class VehicleModel(Model):
     def __str__(self):
         return f"{self.brand.name} {self.name}"
 
+
 class CarModel3D(Model):
     "Model for 3D car models"
 
@@ -72,6 +73,14 @@ class CarModel3D(Model):
     description = TextField(_("description"), blank=True)
 
     # 3D Model files
+    modified_part = ForeignKey(
+        "parts.Part3dmodels",
+        on_delete=CASCADE,
+        related_name="car_models_3d",
+        null=True,
+        blank=True,
+        help_text=_("The modified part associated with this 3D car model"),
+    )
     model_file = FileField(_("3D model file (OBJ/GLB)"), upload_to="3d_models/cars/")
     thumbnail = ImageField(
         _("thumbnail image"), upload_to="3d_models/thumbnails/", null=True, blank=True

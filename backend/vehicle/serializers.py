@@ -44,6 +44,7 @@ class VehicleModelSerializer(ModelSerializer):
 class CarModel3DSerializer(ModelSerializer):
     "Serializer for 3D Car Models"
 
+    modified_part_name = CharField(source="modified_part.name", read_only=True)
     model_file_url = SerializerMethodField()
     thumbnail_url = SerializerMethodField()
 
@@ -54,6 +55,8 @@ class CarModel3DSerializer(ModelSerializer):
             "name",
             "brand",
             "description",
+            "modified_part",
+            "modified_part_name",
             "model_file",
             "model_file_url",
             "thumbnail",
