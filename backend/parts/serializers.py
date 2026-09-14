@@ -117,7 +117,6 @@ class Part3dmodelsSerializer(ModelSerializer):
         fields = [
             "id",
             "name",
-            "part",
             "part_name",
             "description",
             "model_file",

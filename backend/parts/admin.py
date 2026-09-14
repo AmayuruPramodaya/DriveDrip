@@ -78,7 +78,7 @@ class SparePartAdmin(admin.ModelAdmin):
 class Part3DModelAdmin(admin.ModelAdmin):
     """Admin configuration for Part3DModel model"""
 
-    list_display = ("name", "part", "is_active", "created_at")
+    list_display = ("name", "is_active", "created_at")
     list_filter = ("is_active", "created_at")
     search_fields = ("name", "part__name")
     readonly_fields = ("created_at", "updated_at")
@@ -89,7 +89,6 @@ class Part3DModelAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "name",
-                    "part",
                     "description",
                     "model_file",
                     "thumbnail",

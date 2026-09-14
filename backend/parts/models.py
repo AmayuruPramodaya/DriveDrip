@@ -144,7 +144,7 @@ class Part3dmodels(Model):
     "3D models for spare parts"
 
     name = CharField(_("3D model name"), max_length=255)
-    part = ForeignKey(SparePart, on_delete=CASCADE, related_name="parts_models")
+    # part = ForeignKey(SparePart, on_delete=CASCADE, related_name="parts_models")
     description = TextField(_("description"), blank=True)
 
     # 3D Model files
@@ -171,5 +171,3 @@ class Part3dmodels(Model):
     class Meta:
         verbose_name = _("3D Part Model")
         verbose_name_plural = _("3D Part Models")
-        ordering = ["part", "name"]
-        indexes = [Index(fields=["part", "name"], name="part_3d_model_part_name")]
