@@ -7,7 +7,7 @@ export const sampleCarModels = [
     brand: "BMW",
     name: "M4 (F82)",
     description: "High-performance sports coupe with full configurator support (doors, hood, trunk, wheels).",
-    model_file_url: "http://localhost:8000/media/3d_models/cars/F82.glb",
+    model_file_url: "https://threejs.org/examples/models/gltf/RobotExpressive/RobotExpressive.glb", // Using a working public model temporarily since F82.glb is missing
     default_colors: {
       "Sakhir Orange": "#D23719",
       "Austin Yellow": "#B89B22",
@@ -15,6 +15,19 @@ export const sampleCarModels = [
       "Alpine White": "#F4F4F4",
       "Black Sapphire": "#0A0A0A"
     },
+    base_price: 24800000,
+    alloy_wheels: [
+      { id: "w1", name: "20\" Multi-Spoke GT", description: "Forged Monoblock • Gold Tone", price: 145000 },
+      { id: "w2", name: "19\" Performance Star", description: "Matte Titanium • Lightweight", price: 95000 },
+      { id: "w3", name: "Aero Disk Carbon", description: "Drag Reduction Turbofan", price: 120000 },
+      { id: "w4", name: "18\" OEM Cast Alloy", description: "Stock Factory Finish", price: 0 }
+    ],
+    spoilers: [
+      { id: "s1", name: "GT High-Mount Wing", description: "Carbon Fiber Blade • Orange Endplates", price: 185000 },
+      { id: "s2", name: "Carbon Ducktail", description: "Low-Drag Trunk Lip", price: 72000 },
+      { id: "s3", name: "Active Dynamic Wing", description: "Electronic Speed Tilt Actuator", price: 240000 },
+      { id: "s4", name: "Factory Clean (None)", description: "Flush OEM Trunk Lid", price: 0 }
+    ],
     features: {
       hasDoors: true,
       hasHood: true,
@@ -108,6 +121,15 @@ export const fallbackCarModel = {
     "Silver": "#C0C0C0",
     "Green": "#00FF00"
   },
+  base_price: 15000000,
+  alloy_wheels: [
+    { id: "dw1", name: "Standard Wheels", description: "Basic alloy", price: 0 },
+    { id: "dw2", name: "Sport Wheels", description: "Lightweight performance", price: 50000 }
+  ],
+  spoilers: [
+    { id: "ds1", name: "No Spoiler", description: "Standard", price: 0 },
+    { id: "ds2", name: "Lip Spoiler", description: "Subtle aero", price: 25000 }
+  ],
   created_at: new Date().toISOString(),
   updated_at: new Date().toISOString()
 };
